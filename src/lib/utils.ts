@@ -7,6 +7,7 @@ declare global {
     SpeechRecognition: any;
     webkitSpeechRecognition: any;
   }
+  type SpeechRecognitionEvent = any;
 }
 
 export function cn(...inputs: ClassValue[]) {
