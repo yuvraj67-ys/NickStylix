@@ -226,7 +226,7 @@ export default function AITools() {
           {roastNames.map((n, i) => (
             <div key={i} className="flex items-center justify-between glass border border-white/5 rounded-xl p-3">
               <p className="text-yellow-300">{n}</p>
-              <button onClick={() => handleCopy(n)} className="text-xs text-orange-400 bg-orange-500/10 px-3 py-1 rounded-lg">Copy</button>
+              <button onClick={() => handleCopy(n)} className="text-xs text-orange-400 bg-orange-500/10 px-3 py-1 rounded-lg">{isCopied(n) ? '✓' : 'Copy'}</button>
             </div>
           ))}
         </motion.div>

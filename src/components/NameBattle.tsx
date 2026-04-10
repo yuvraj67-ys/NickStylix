@@ -16,6 +16,11 @@ export default function NameBattle() {
     setResult({ a, b, winner });
   };
 
+  const colorMap: Record<string, { border: string; text: string; bg: string }> = {
+    blue: { border: 'border-blue-500/30', text: 'text-blue-400', bg: 'bg-gaming-card' },
+    red: { border: 'border-red-500/30', text: 'text-red-400', bg: 'bg-gaming-card' },
+  };
+
   return (
     <section className="space-y-5">
       <div className="text-center">
@@ -40,10 +45,10 @@ export default function NameBattle() {
         {result && (
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              {[{name: nameA, data: result.a, color: 'blue'}, {name: nameB, data: result.b, color: 'red'}].map(({name, data, color}) => (
-                <div key={name} className={`bg-gaming-card border border-${color}-500/30 rounded-2xl p-4 text-center`}>
+              {[{name: nameA, data: result.a, cls: colorMap.blue}, {name: nameB, data: result.b, cls: colorMap.red}].map(({name, data, cls}, idx) => (
+                <div key={`battle-${idx}`} className={`${cls.bg} border ${cls.border} rounded-2xl p-4 text-center`}>
                   <p className="text-white font-bold text-lg mb-2">{name}</p>
-                  <p className={`text-4xl font-black text-${color}-400`}>{data.score}</p>
+                  <p className={`text-4xl font-black ${cls.text}`}>{data.score}</p>
                   <p className="text-xs text-gray-400 mt-1">{data.verdict.split('!')[0]}</p>
                 </div>
               ))}

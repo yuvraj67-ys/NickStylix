@@ -42,6 +42,7 @@ export default function StyleGrid() {
   };
 
   const handleFavorite = (name: string, styleName: string) => {
+    if (favorites.some(f => f.name === name && f.styleName === styleName)) return;
     const id = generateId();
     const saved: SavedName = { id, name, styleName, timestamp: Date.now(), likes: 0 };
     addFavorite(saved);

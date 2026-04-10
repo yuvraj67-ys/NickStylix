@@ -65,7 +65,7 @@ export const useStore = create<NickStylixStore>()(
       inputName: '',
       setInputName: (name) => {
         set({ inputName: name });
-        if (name.trim()) get().addRecentSearch(name.trim());
+        if (name.trim().length >= 3) get().addRecentSearch(name.trim());
       },
 
       prefixSymbols: [],

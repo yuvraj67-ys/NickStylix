@@ -1,7 +1,7 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, MicOff, X, Shuffle, AlertCircle } from 'lucide-react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useStore } from '@/lib/store';
 import { startVoiceInput, playClickSound, vibrate } from '@/lib/utils';
 
@@ -15,7 +15,7 @@ const RANDOM_NAMES = [
 export default function NameInput() {
   const { inputName, setInputName, soundEnabled, vibrationEnabled, recentSearches } = useStore();
   const [isListening, setIsListening] = useState(false);
-  const [stopVoice, setStopVoice] = useState<(() => void) | null>(null);
+  const stopVoiceRef = useRef<(() => void) | null>(null);
 
   const charCount = [...inputName].length;
   const isOverLimit = charCount > FF_LIMIT;
@@ -39,14 +39,14 @@ export default function NameInput() {
   };
 
   const handleVoice = useCallback(() => {
-    if (isListening) { stopVoice?.(); setIsListening(false); return; }
+    if (isListening) { stopVoiceRef.current?.(); setIsListening(false); return; }
     const stop = startVoiceInput(
       (text) => { setInputName(text); setIsListening(false); },
       () => setIsListening(false)
     );
-    if (stop) { setStopVoice(() => stop); setIsListening(true); }
+    if (stop) { stopVoiceRef.current = stop; setIsListening(true); }
     if (soundEnabled) playClickSound();
-  }, [isListening, stopVoice, soundEnabled, setInputName]);
+  }, [isListening, soundEnabled, setInputName]);
 
   return (
     <div className="w-full space-y-4">

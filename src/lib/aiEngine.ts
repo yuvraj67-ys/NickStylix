@@ -163,9 +163,10 @@ export function findSimilarNames(name: string): string[] {
 
 export function generateMeaning(name: string): string {
   const base = name.replace(/[^a-zA-Z]/g, '') || 'this name';
-  const prefix = MEANING_PARTS.prefixes[base.charCodeAt(0) % MEANING_PARTS.prefixes.length];
-  const action = MEANING_PARTS.actions[base.charCodeAt(Math.min(1, base.length-1)) % MEANING_PARTS.actions.length];
-  const quality = MEANING_PARTS.qualities[base.charCodeAt(Math.min(2, base.length-1)) % MEANING_PARTS.qualities.length];
+  const safeIdx = (i: number) => base.charCodeAt(Math.min(i, Math.max(0, base.length - 1)));
+  const prefix = MEANING_PARTS.prefixes[safeIdx(0) % MEANING_PARTS.prefixes.length];
+  const action = MEANING_PARTS.actions[safeIdx(1) % MEANING_PARTS.actions.length];
+  const quality = MEANING_PARTS.qualities[safeIdx(2) % MEANING_PARTS.qualities.length];
   return `"${name}" means: ${prefix} ${action} all ${quality}. A powerful warrior name that commands respect and fear. In gaming culture, this name represents unstoppable strength and skill.`;
 }
 
