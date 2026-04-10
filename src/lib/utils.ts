@@ -1,6 +1,14 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// SpeechRecognition type declarations (non-standard API)
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -75,7 +83,7 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 // Voice input
 export function startVoiceInput(onResult: (text: string) => void, onEnd: () => void): (() => void) | null {
   if (typeof window === 'undefined') return null;
-  const SR = window.SpeechRecognition || (window as typeof window & { webkitSpeechRecognition: typeof SpeechRecognition }).webkitSpeechRecognition;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) return null;
   const recognition = new SR();
   recognition.lang = 'en-IN'; recognition.continuous = false; recognition.interimResults = false;
